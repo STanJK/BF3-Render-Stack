@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Blender
+*.blend1
+*.blend2
+
+# Render outputs
+Render/
+output/
+*.exr
+
+# RenderDoc / capture artifacts -- NEVER COMMIT
+*.rdc
+*.cap
+*.xml.zip
+Frame*.zip
+Frame*.zip.xml
+
+# Extracted proprietary assets -- NEVER COMMIT
+private/
+private-reference/
+colorGradingTexture.dds
+filmGrainTexture.png
+star.png
+ring.png
+dirty_source.png
+lens_dirt.png
+warm_ghost.png
+blue_ghost.png
+*.dxbc
+*.cso
+
+# Local scratch
+*.dmp
+*.log
+.DS_Store
+Thumbs.db
