@@ -2,7 +2,7 @@
 
 Independent research reconstruction of selected parts of the **Battlefield 3 / Frostbite 2 photographic render stack**, derived from GPU-capture observations and reimplemented as original Python, HLSL reference code, and Blender compositor tooling.
 
-![Full reconstruction A/B](docs/images/full-reconstruction-ab.jpg)
+![Full reconstruction A/B](docs/images/full-reconstruction-ab.png)
 
 The current project reconstructs:
 
@@ -21,7 +21,7 @@ This repository contains only project-authored material:
 - mathematical descriptions and recovered constants;
 - Blender integration;
 - validation methodology and measurements;
-- research figures and reduced frame excerpts used for technical commentary.
+- research figures used for technical documentation and comparison.
 
 It intentionally does **not** redistribute extracted DICE/Frostbite assets, raw RenderDoc captures, original shader bytecode, verbatim shader disassembly/decompilation, LUTs, grain textures, flare textures, or raw game buffers.
 
@@ -46,7 +46,7 @@ HDR MAE  ≈ 0.00030
 HDR RMSE ≈ 0.00058
 ```
 
-![Flare validation](docs/images/flare-validation.jpg)
+![Flare validation](docs/images/flare-validation.png)
 
 ### Final photographic pass
 
@@ -64,11 +64,11 @@ scene-linear HDR
   -> SDR output
 ```
 
-![Final-pass stages](docs/images/shader1490-stages.jpg)
+![Final-pass stages](docs/images/shader1490-stages.png)
 
 A compact raw-vs-final comparison is available here:
 
-![Raw vs final](docs/images/raw-vs-final.jpg)
+![Raw vs final](docs/images/raw-vs-final.png)
 
 ## Repository layout
 
@@ -159,7 +159,7 @@ The script:
 - inserts an A/B switch before the existing Bloom/Glare node;
 - leaves the direct Raw HDR output branch untouched.
 
-![Blender nodes](docs/images/blender-nodes.jpg)
+![Blender nodes](docs/images/blender-nodes.png)
 
 ## Shader-code policy
 
