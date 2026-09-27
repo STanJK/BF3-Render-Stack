@@ -13,7 +13,7 @@ Observed resource roles:
 - 32³ RGBA8 3D color-grading LUT;
 - 512² R8 grain texture.
 
-Recovered public components:
+Recovered components:
 
 - rational/square-root tone curve;
 - LUT voxel-center mapping and trilinear sampling;
@@ -32,7 +32,8 @@ Five additive HDR flare draws were isolated and mapped to:
 4. warm optical ghost;
 5. blue mirrored ghost.
 
-The capture exposed screen-space quad geometry, per-layer gains, color multipliers, radial rotation relationships, and additive blending behavior.
+The capture exposed screen-space quad geometry, per-layer gains, color
+multipliers, radial rotation relationships, and additive blending behavior.
 
 Offline replay reached approximately:
 
@@ -45,14 +46,23 @@ HDR RMSE ≈ 0.00058
 
 A Blender-native compositor implementation was created for interactive scene work.
 
-An important implementation bug was found during transfer: composing finite flare sprites into a finite intermediate image caused visible square seams because of compositor domain propagation.
+An important implementation bug was found during transfer: composing finite flare
+sprites into a finite intermediate image caused visible square seams because of
+compositor domain propagation.
 
-The fix was architectural: every recovered flare layer is added directly to the full-frame HDR chain before the A/B switch and Bloom node.
+The fix was architectural: every recovered flare layer is added directly to the
+full-frame HDR chain before the A/B switch and Bloom node.
+
+## 2026-09 — Reproducible extraction workflow
+
+The repository now documents how to recreate the required LUT, grain, and flare
+input files from a fresh Battlefield 3 RenderDoc capture.
+
+See [extract-reference-assets.md](extract-reference-assets.md) and run
+`tools/check_reference_assets.py` after export.
 
 ## Current gap
 
-The largest remaining gap is the **upstream bloom-generation pass**. The current Blender Bloom/Glare node is only an approximation; the captured final shader merely consumes a precomputed half-resolution bloom texture.
-
-## Public-release boundary
-
-Raw capture data, extracted assets, original bytecode, and verbatim disassembly remain local-only. The public repo records the independently written reconstruction, constants, methodology, and reduced research figures.
+The largest remaining gap is the **upstream bloom-generation pass**. The current
+Blender Bloom/Glare node is only an approximation; the captured final shader
+consumes a precomputed half-resolution bloom texture.
