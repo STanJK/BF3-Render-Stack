@@ -13,16 +13,17 @@ Render/
 output/
 *.exr
 
-# RenderDoc / capture artifacts -- NEVER COMMIT
+# User-extracted BF3 reference inputs
+local_assets/
+
+# RenderDoc / capture work files
 *.rdc
 *.cap
 *.xml.zip
 Frame*.zip
 Frame*.zip.xml
 
-# Extracted proprietary assets -- NEVER COMMIT
-private/
-private-reference/
+# Common direct exports
 colorGradingTexture.dds
 filmGrainTexture.png
 star.png
