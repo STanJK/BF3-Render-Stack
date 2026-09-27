@@ -28,7 +28,7 @@ from pathlib import Path
 from bpy_extras.object_utils import world_to_camera_view
 
 SUN_OBJECT_NAME = "SunCircle"
-ASSET_DIR = Path(bpy.path.abspath("//")) / "private" / "flare"
+ASSET_DIR = Path(bpy.path.abspath("//")) / "local_assets" / "flare"
 
 MASTER_STRENGTH = 1.0
 TEXTURE_GAIN = 1.0112
