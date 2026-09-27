@@ -1,0 +1,26 @@
+{
+  "bundle": "BF3-Render-Stack-private-reference",
+  "warning": "Private research material; do not upload to public repository.",
+  "files": [
+    {"path":"README_PRIVATE.txt","size":777,"sha256":"22f2dd78e57b31d1858ff52e478a0a61c6cb5e2c610b41ed3c61b121383726a9"},
+    {"path":"assets/final-post/colorGradingTexture.dds","size":131200,"sha256":"1b05b2d6d50ff4f08a27190cc6983c7c5678cd81f354f51fd1a584532f31c485"},
+    {"path":"assets/final-post/filmGrainTexture.png","size":255723,"sha256":"1304e079b026b77e11103073b0a49b0587bd5e7e39e49f36bd89e5d1e0a374ec"},
+    {"path":"assets/final-post/filmGrainTexture.r8","size":262144,"sha256":"d12a781281c1533df1814c88b10cf781e605a3c7413b7ba636e357ff1fd8e814"},
+    {"path":"assets/flare/blue_ghost.png","size":12498,"sha256":"0ad236a431747b48208d2781f5838737fd82b79b3082465b53561bceecd3a19a"},
+    {"path":"assets/flare/dirty_source.png","size":36363,"sha256":"f2de23698737f14835f76a62c0cf22c404cca387d57294e803018c928104b755"},
+    {"path":"assets/flare/lens_dirt.png","size":737884,"sha256":"13c6aa4d5af0302d25a67858980307055ac049a96c620b4b09f220e8eee6958b"},
+    {"path":"assets/flare/ring.png","size":96923,"sha256":"70e8ed98e8463be297c899f369292cabcc3968cf6ec5684bfc1ac36cc9568e0e"},
+    {"path":"assets/flare/star.png","size":91526,"sha256":"4c47044befc554257cab4b719e578e707e2068c5061cdbba33af95ced093065b"},
+    {"path":"assets/flare/warm_ghost.png","size":54243,"sha256":"3e104d573421552bc79954f2aaed37374c209a4f29853d25841cc671e3494116"},
+    {"path":"capture/Frame14084_capture.xml","size":11157256,"sha256":"48862ad3186f205a4887b3540e0ef4c2b3495d925d1724f83e773cbdc0657602"},
+    {"path":"capture/Frame14084_flare_sequence.zip","size":25728255,"sha256":"5a59a94da98d07f59370d5bca5e3b4c9bd445bb8a046de5eb658f0075a29b726"},
+    {"path":"capture/mainTexture.exr","size":7384651,"sha256":"e93d8622ad185fd02643daed55e3cc3da69a0ac85a674c6194495642cba554a7"},
+    {"path":"capture/tonemapBloomTexture.exr","size":1849291,"sha256":"8e587d7bb439ee51cfa6cfe1b17c5ec077d03f5014def2dc50c4d8c2c4a1bb6a"},
+    {"path":"shaders/captured_shader_disassembly_misc.txt","size":23723,"sha256":"42443fe5fdfdf6a29ea99e14bf3b6faa4c9a1b917054a761725abe1bed0852b5"},
+    {"path":"shaders/shader1490.dxbc","size":4048,"sha256":"cddc89da9de063898a40e4cd35773e73dc7ce92b7e4ef93ffebb1aa717d0a6be"}
+  ],
+  "external_large_sources": [
+    {"filename":"Frame 14084 9.10.rdc","size":288177061,"sha256":"c15690868c348a657389c6b0745cef7234c8d0369ee849e90c097e26f9562253","note":"kept outside bundle due to size"},
+    {"filename":"Frame14084.zip","size":205388229,"sha256":"d7fc70642621c3426d570775051bd20a2db061056dfed450fb16c8659fb04370","note":"kept outside bundle due to size"}
+  ]
+}
