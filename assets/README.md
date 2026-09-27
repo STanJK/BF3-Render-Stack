@@ -1,32 +1,16 @@
-# Local-only assets
+# Reference asset setup
 
-No extracted Battlefield 3 assets are committed here.
+BF3 Render Stack expects eight small reference inputs extracted from your own
+Battlefield 3 GPU capture.
 
-For local experiments, point the tools at assets you extract from your own
-legally obtained copy/capture.
+Follow the complete guide:
 
-Expected flare assets:
+**[docs/extract-reference-assets.md](../docs/extract-reference-assets.md)**
 
-```text
-star.png
-ring.png
-dirty_source.png
-lens_dirt.png
-warm_ghost.png
-blue_ghost.png
-```
-
-Expected final-pass assets:
+Expected local layout:
 
 ```text
-colorGradingTexture.dds
-filmGrainTexture.png
-```
-
-Recommended local layout:
-
-```text
-private/
+local_assets/
 ├─ flare/
 │  ├─ star.png
 │  ├─ ring.png
@@ -38,4 +22,8 @@ private/
 └─ filmGrainTexture.png
 ```
 
-`private/` is gitignored.
+Validate the setup with:
+
+```powershell
+py .\tools\check_reference_assets.py
+```
