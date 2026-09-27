@@ -1,71 +1,71 @@
 # Research figures
 
-The repository uses a small set of figures to document the reconstruction. The image files live in `docs/images/`.
+The repository uses the original full-resolution PNG figures in `docs/images/` to document the reconstruction.
 
-Some figures contain reduced Battlefield 3 frame excerpts for technical comparison/commentary. Those third-party image portions are not relicensed under MIT.
+Some figures contain Battlefield 3 frame excerpts for technical comparison/commentary. Those third-party image portions are not relicensed under MIT.
 
 ## Figure index
 
 ### Full reconstruction A/B
 
-`full-reconstruction-ab.jpg`
+`full-reconstruction-ab.png`
 
 Stage-by-stage comparison between the reconstructed Blender scene and the captured Battlefield 3 reference pipeline.
 
-![Full reconstruction A/B](images/full-reconstruction-ab.jpg)
+![Full reconstruction A/B](images/full-reconstruction-ab.png)
 
 ### Raw vs final
 
-`raw-vs-final.jpg`
+`raw-vs-final.png`
 
 Compact comparison of the scene-linear HDR input and final reconstructed photographic output.
 
-![Raw vs final](images/raw-vs-final.jpg)
+![Raw vs final](images/raw-vs-final.png)
 
 ### Flare buildup
 
-`flare-buildup.jpg`
+`flare-buildup.png`
 
 Captured HDR buildup across the five isolated lens-flare draws.
 
-![Flare buildup](images/flare-buildup.jpg)
+![Flare buildup](images/flare-buildup.png)
 
 ### Flare validation
 
-`flare-validation.jpg`
+`flare-validation.png`
 
 Captured final flare target vs offline replay, plus amplified difference visualization.
 
-![Flare validation](images/flare-validation.jpg)
+![Flare validation](images/flare-validation.png)
 
 ### Shader 1490 stages
 
-`shader1490-stages.jpg`
+`shader1490-stages.png`
 
 A→F breakdown of the final photographic pass.
 
-![Shader 1490 stages](images/shader1490-stages.jpg)
+![Shader 1490 stages](images/shader1490-stages.png)
 
 ### Blender scene
 
-`blender-scene.jpg`
+`blender-scene.png`
 
 Source scene used for the transfer/reconstruction experiment.
 
-![Blender scene](images/blender-scene.jpg)
+![Blender scene](images/blender-scene.png)
 
 ### Blender compositor nodes
 
-`blender-nodes.jpg`
+`blender-nodes.png`
 
 Creator-facing native compositor implementation of the recovered flare stack.
 
-![Blender compositor nodes](images/blender-nodes.jpg)
+![Blender compositor nodes](images/blender-nodes.png)
 
 ### Blender to final
 
-`blender-to-final.jpg`
+`blender-to-final.png`
 
 End-to-end scene → HDR → reconstructed camera/post pipeline overview.
 
-![Blender to final](images/blender-to-final.jpg)
+![Blender to final](images/blender-to-final.png)
