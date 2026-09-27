@@ -1,17 +1,74 @@
 # BF3 Render Stack
 
-Research-oriented reconstruction of selected parts of the **Battlefield 3 / Frostbite 2 photographic render stack**, built from GPU-capture observations and independently written replay code.
+Independent research reconstruction of selected parts of the **Battlefield 3 / Frostbite 2 photographic render stack**, derived from GPU-capture observations and reimplemented as original Python, HLSL reference code, and Blender compositor tooling.
 
-The project currently focuses on:
+![Full reconstruction A/B](docs/images/full-reconstruction-ab.jpg)
+
+The current project reconstructs:
 
 - the five-layer lens-flare / optical-artifact stack;
-- the final photographic pass: tone curve, 32³ LUT, vignette and grain;
-- Blender compositor integration;
-- validation against captured HDR buffers.
+- the final photographic pass: tone curve, 32³ LUT, vignette, and film grain;
+- a Blender-native compositor implementation;
+- an offline validation path against captured FP16 HDR buffers.
 
-The public repository contains **our own code, equations, documentation, Blender integration, and research figures**. Extracted DICE/Frostbite assets, raw RenderDoc captures, shader bytecode/disassembly, LUTs, grain textures, flare textures, and game buffers are intentionally excluded.
+> **Unofficial research project.** Not affiliated with Electronic Arts or DICE. Battlefield, Frostbite, and related marks are property of their respective owners.
 
-> Unofficial research project. Not affiliated with Electronic Arts or DICE. Battlefield, Frostbite and related marks are property of their respective owners.
+## What is public
+
+This repository contains only project-authored material:
+
+- independently written replay / reconstruction code;
+- mathematical descriptions and recovered constants;
+- Blender integration;
+- validation methodology and measurements;
+- research figures and reduced frame excerpts used for technical commentary.
+
+It intentionally does **not** redistribute extracted DICE/Frostbite assets, raw RenderDoc captures, original shader bytecode, verbatim shader disassembly/decompilation, LUTs, grain textures, flare textures, or raw game buffers.
+
+See [THIRD_PARTY_NOTICE.md](THIRD_PARTY_NOTICE.md) and [docs/private-assets.md](docs/private-assets.md).
+
+## Results
+
+### Lens flare
+
+Five additive screen-space flare draws were isolated:
+
+1. star flare;
+2. rainbow ring;
+3. screen-space lens dirt;
+4. warm optical ghost;
+5. blue mirrored ghost.
+
+The offline replay was compared with captured HDR render-target snapshots:
+
+```text
+HDR MAE  ≈ 0.00030
+HDR RMSE ≈ 0.00058
+```
+
+![Flare validation](docs/images/flare-validation.jpg)
+
+### Final photographic pass
+
+The recovered final-pass order is:
+
+```text
+scene-linear HDR
+  -> flare stack
+  -> bloom
+  -> exposure / color scale
+  -> recovered tone curve
+  -> 32^3 3D LUT
+  -> vignette
+  -> film grain
+  -> SDR output
+```
+
+![Final-pass stages](docs/images/shader1490-stages.jpg)
+
+A compact raw-vs-final comparison is available here:
+
+![Raw vs final](docs/images/raw-vs-final.jpg)
 
 ## Repository layout
 
@@ -19,15 +76,22 @@ The public repository contains **our own code, equations, documentation, Blender
 BF3-Render-Stack/
 ├─ src/
 │  ├─ bf3_flare_replay.py
-│  └─ bf3_post.py
+│  ├─ bf3_post.py
+│  └─ shader1490_reference.hlsl
 ├─ blender/
 │  └─ build_bf3_flare_nodes.py
 ├─ examples/
 │  └─ post.ps1
 ├─ docs/
 │  ├─ pipeline.md
+│  ├─ methodology.md
+│  ├─ validation.md
+│  ├─ blender-workflow.md
 │  ├─ shader1490.md
 │  ├─ private-assets.md
+│  ├─ private-reference-manifest.json
+│  ├─ research-log.md
+│  ├─ research-figures.md
 │  └─ images/
 ├─ assets/
 │  └─ README.md
@@ -38,29 +102,26 @@ BF3-Render-Stack/
 
 ## Quick start
 
-### Supply your own local reference assets
+### 1. Supply local reference assets
 
-The code does **not** ship extracted Battlefield 3 assets. See `assets/README.md` and `docs/private-assets.md`.
-
-Expected flare texture names:
+The public repo does **not** contain extracted Battlefield 3 resources. For local experiments, place your own extracted assets under:
 
 ```text
-star.png
-ring.png
-dirty_source.png
-lens_dirt.png
-warm_ghost.png
-blue_ghost.png
+private/
+├─ flare/
+│  ├─ star.png
+│  ├─ ring.png
+│  ├─ dirty_source.png
+│  ├─ lens_dirt.png
+│  ├─ warm_ghost.png
+│  └─ blue_ghost.png
+├─ colorGradingTexture.dds
+└─ filmGrainTexture.png
 ```
 
-Expected final-post assets:
+`private/` is gitignored.
 
-```text
-colorGradingTexture.dds
-filmGrainTexture.png
-```
-
-### Offline flare replay
+### 2. Offline flare replay
 
 ```powershell
 py -m pip install -r requirements.txt
@@ -73,7 +134,7 @@ py .\src\bf3_flare_replay.py `
   --sun-uv 0.70 0.28
 ```
 
-### Final photographic pass
+### 3. Final photographic pass
 
 ```powershell
 py .\src\bf3_post.py `
@@ -84,38 +145,62 @@ py .\src\bf3_post.py `
   -o .\final.png
 ```
 
-### Blender compositor integration
+The `-0.5 EV` value is a scene calibration used for the current Blender test scene, not a universal BF3 constant.
 
-Open `blender/build_bf3_flare_nodes.py` in Blender's Scripting workspace and run it. It projects an object named `SunCircle`, builds the flare stack as native compositor nodes, preserves the full-frame HDR domain, and inserts an A/B switch before the existing Bloom/Glare node.
+### 4. Blender compositor integration
 
-## Validation
+Open [blender/build_bf3_flare_nodes.py](blender/build_bf3_flare_nodes.py) in Blender's Scripting workspace and run it.
 
-The offline five-layer flare replay was compared with captured HDR render-target snapshots and reached approximately:
+The script:
 
-```text
-MAE  ≈ 0.00030
-RMSE ≈ 0.00058
-```
+- projects an object named `SunCircle` through the active camera;
+- rebuilds the five recovered flare layers as native compositor nodes;
+- preserves the full-frame HDR domain to avoid finite-sprite seams;
+- inserts an A/B switch before the existing Bloom/Glare node;
+- leaves the direct Raw HDR output branch untouched.
 
-The Blender node version is creator-friendly rather than bit-identical to D3D11. The current Blender Bloom is also an approximation and remains a reconstruction target.
+![Blender nodes](docs/images/blender-nodes.jpg)
 
 ## Shader-code policy
 
-The repo publishes **our own functional reimplementation and equations**. It does **not** publish verbatim DXBC bytecode, RenderDoc shader dumps, or decompiled/disassembled DICE shader text.
+The public HLSL file is a **clean behavioral reference written for this project**. It is not DICE source code and is not copied from original DXBC/disassembly.
 
-## Research status
+Original DXBC, verbatim RenderDoc shader dumps, and decompiled/disassembled DICE shader text remain private.
 
-- [x] Final-pass functional reconstruction
-- [x] 32³ LUT trilinear sampling
-- [x] vignette and grain reconstruction
-- [x] five-layer lens-flare reconstruction
-- [x] per-layer HDR validation
-- [x] Blender compositor integration
-- [ ] BF3 bloom reconstruction/calibration
-- [ ] stronger sampler-level parity for BC1 textures
-- [ ] generalized camera/occlusion logic
-- [ ] HDR display-output path
+See:
+
+- [src/shader1490_reference.hlsl](src/shader1490_reference.hlsl)
+- [docs/shader1490.md](docs/shader1490.md)
+- [docs/pipeline.md](docs/pipeline.md)
+
+## Research documentation
+
+- [Pipeline reconstruction](docs/pipeline.md)
+- [Methodology](docs/methodology.md)
+- [Validation](docs/validation.md)
+- [Blender workflow](docs/blender-workflow.md)
+- [Final-pass notes](docs/shader1490.md)
+- [Private/public asset boundary](docs/private-assets.md)
+- [Private reference manifest](docs/private-reference-manifest.json)
+- [Research log](docs/research-log.md)
+- [Figure index](docs/research-figures.md)
+
+## Current status
+
+- [x] final-pass functional reconstruction;
+- [x] 32³ LUT trilinear sampling;
+- [x] vignette and grain reconstruction;
+- [x] five-layer lens-flare reconstruction;
+- [x] per-layer HDR validation;
+- [x] Blender compositor integration;
+- [x] public/private provenance boundary documented;
+- [ ] BF3 bloom reconstruction / calibration;
+- [ ] stronger sampler-level parity for BC1 textures;
+- [ ] generalized camera / occlusion logic;
+- [ ] HDR display-output path.
 
 ## License
 
-Original project code and documentation are MIT licensed. Third-party game imagery and marks in research figures are not covered by MIT; see `THIRD_PARTY_NOTICE.md`.
+Original project code and documentation are MIT licensed.
+
+Third-party game imagery and marks that may appear inside research figures are **not** covered by the MIT license. See [THIRD_PARTY_NOTICE.md](THIRD_PARTY_NOTICE.md).
