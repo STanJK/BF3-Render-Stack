@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this research code, please cite the repository."
+title: "BF3 Render Stack"
+type: software
+authors:
+  - alias: "STanJK"
+repository-code: "https://github.com/STanJK/BF3-Render-Stack"
+url: "https://github.com/STanJK/BF3-Render-Stack"
+license: MIT
